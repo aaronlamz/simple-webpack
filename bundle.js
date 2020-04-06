@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const babylon = require("babylon");
 const traverse = require("babel-traverse").default;
 
@@ -30,7 +31,26 @@ function createAsset(filename) {
 // 构建一个依赖关系图
 function createGraph(entry) {
   const mainAssets = createAsset(entry);
+
+  const queue = [mainAssets];
+
+  for (const asset of queue) {
+    const dirname = path.dirname(asset.filename);
+
+    asset.mapping = {};
+
+    asset.dependencies.forEach((relativePath) => {
+      const absolutePath = path.join(dirname, relativePath);
+
+      const child = createAsset(absolutePath);
+
+      asset.mapping[relativePath] = child.id;
+
+      queue.push(child);
+    });
+  }
+  return queue;
 }
 
-const graph = createAsset("./example/entry.js");
+const graph = createGraph("./example/entry.js");
 console.log(graph);
