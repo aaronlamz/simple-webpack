@@ -7,10 +7,14 @@ function createAsset(filename) {
   const ast = babylon.parse(content, {
     sourceType: "module",
   });
-  console.log(ast);
+  // console.log("ast", ast);
+
+  const dependents = [];
   traverse(ast, {
-    ImportDeclaration: ({ node }) => { // ??
-      console.log(node);
+    ImportDeclaration: ({ node }) => {
+      // ??
+      // console.log("node", node);
+      dependents.push(node.source.value);
     },
   });
 }
