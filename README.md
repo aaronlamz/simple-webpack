@@ -1,2 +1,2 @@
-# simple-webpack
+# Simple Webpack
 A simple JavaScript bundle
