@@ -1,2 +1,2 @@
 # Simple Webpack
-A simple JavaScript bundle
+A simple JavaScript bundle demo
